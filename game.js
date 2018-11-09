@@ -35,7 +35,7 @@ Controls.prototype.onTouch = function(e) {
   else if (t.pageX < window.innerWidth * 0.5) this.onKey(true, {
     keyCode: 37
   });
-  else if (t.pageY > window.innerWidth * 0.5) this.onKey(true, {
+  else if (t.pageX > window.innerWidth * 0.5) this.onKey(true, {
     keyCode: 39
   });
 };
@@ -53,8 +53,8 @@ Controls.prototype.onKey = function(val, e) {
   var state = this.codes[e.keyCode];
   if (typeof state === 'undefined') return;
   this.states[state] = val;
-  e.preventDefault && e.preventDefault();
-  e.stopPropagation && e.stopPropagation();
+  e.preventDefault && e.preventDefault();//
+  e.stopPropagation && e.stopPropagation();//
 };
 
 function Bitmap(src, width, height) {
@@ -91,7 +91,7 @@ Player.prototype.update = function(controls, map, seconds) {
 function Map(size) {
   this.size = size;
   this.wallGrid = new Uint8Array(size * size);
-  this.skybox = new Bitmap('assets/deathvalley_panorama.jpg', 2000, 750);
+  this.skybox = new Bitmap('assets/deathvalley_panorama.jpg', 2000, 750);//图片左右需要能接起来
   this.wallTexture = new Bitmap('assets/wall_texture.jpg', 1024, 1024);
   this.light = 0;
 }
@@ -214,8 +214,8 @@ Camera.prototype.drawColumn = function(column, ray, angle, map) {
   while (++hit < ray.length && ray[hit].height <= 0);
   for (var s = ray.length - 1; s >= 0; s--) {
     var step = ray[s];
-    var rainDrops = Math.pow(Math.random(), 3) * s;
-    var rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+    // var rainDrops = Math.pow(Math.random(), 3) * s;
+    // var rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     if (s === hit) {
       var textureX = Math.floor(texture.width * step.offset);
       var wall = this.project(step.height, angle, step.distance);
@@ -229,7 +229,7 @@ Camera.prototype.drawColumn = function(column, ray, angle, map) {
 
     ctx.fillStyle = '#ffffff';
     ctx.globalAlpha = 0.15;
-    while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
+    // while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
   }
 };
 Camera.prototype.project = function(height, angle, distance) {
@@ -255,7 +255,7 @@ GameLoop.prototype.frame = function(time) {
   var seconds = (time - this.lastTime) / 1000;
   this.lastTime = time;
   if (seconds < 0.2) this.callback(seconds);
-  requestAnimationFrame(this.frame);
+  requestAnimationFrame(this.frame);  
 };
 
 var player = new Player(15.3, -1.2, Math.PI * 0.3);
